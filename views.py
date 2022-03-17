@@ -1,5 +1,6 @@
-from django.shortcuts import render
 from django.http import HttpRequest, JsonResponse
+from django.shortcuts import render
+
 from .EgyptianNationalId import *
 
 
