@@ -1,5 +1,5 @@
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 EG_ID_REGEX: str = r'^(2|3)[0-9]{2}[0-1][0-9][0-3][0-9](01|02|03|04|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|31|32|33|34|35|88)\d{5}$'
@@ -72,8 +72,8 @@ class EgyptianNationalId:
 
         self.fields = {}
         self.__extract_info_from_national_id()
-        self.__convert_birth_date()
         self.__convert_century()
+        self.__convert_birth_date()
         self.__convert_gender()
         self.__convert_governrate()
 
@@ -122,8 +122,14 @@ class EgyptianNationalId:
         """
         Convert the birth date to a datetime object
         """
-        self.fields['birthDate'] = datetime.strptime(
+        date = datetime.strptime(
             self.birth_str, '%y%m%d').date()
+
+        if not date.year in self.century:
+            date = date.replace(year=date.year - 100)
+            self.fields['birthDate'] = date
+        else:
+            self.fields['birthDate'] = date
 
     def __convert_century(self) -> None:
         """
@@ -137,6 +143,6 @@ class EgyptianNationalId:
         """
         return f'id {self.id} \n' \
             f'birth_century {self.birth_century} \n' \
-            f'birth_date {self.birth_date} \n' \
-            f'governrate {self.governrate} \n' \
-            f'gender {self.gender}'
+            f'birth_date {self.fields["birthDate"]} \n' \
+            f'governrate {self.fields["governrate"]} \n' \
+            f'gender {self.fields["gender"]}'
