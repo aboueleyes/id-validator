@@ -42,7 +42,7 @@ Egyptian national ID validator and data-extractor API
 
 ## Project Decisions
 
-- Used Regex to check the validity of the id
+- Used [Regex](https://regexr.com/6hl0q) to check the validity of the id
 - If the id century is less than 1900 or greater than 2100 it will return error assuming no one before `1900` is using our service 
 and the code must be updated after `78` years from now :D.
 - if the id has a year greater than the current year the api wouldn't report that (my design choise) but it can be handeld easily. 
