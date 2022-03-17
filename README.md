@@ -15,8 +15,13 @@ Egyptian national ID validator and data-extractor API
 ## Ruunig Tests
 
 ```bash
-> ./manage.py test
+(id-validator/idVaildator)> ./manage.py test
 ```
+```bash
+(/)> ./test.sh
+```
+[Regex Tests](https://regexr.com/6hl0q)
+
 
 ## Sample Output
 
