@@ -40,7 +40,7 @@ class TestNationalId(unittest.TestCase):
                          datetime.datetime(2001, 3, 21).date())
 
     def test_century(self):
-        self.assertTrue(2002 in self.id.century)
+        self.assertTrue(2002 in self.id.birth_century_range)
 
     def test_century_old(self):
         id = EgyptianNationalId("20103211203134")

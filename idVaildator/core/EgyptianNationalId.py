@@ -35,10 +35,12 @@ GOVERNORATES: dict[str, str] = {
     "88": "Foreign",
 }
 
-CENTURY: dict[str, range] = {
-    "2": range(1900, 2000),
-    "3": range(2000, 2100),
+CENTURY_RANGE: dict[int, range] = {
+    2: range(1900, 2000),
+    3: range(2000, 2100),
 }
+
+CENTURY_To_YEAR = 100
 
 
 class EgyptianNationalId:
@@ -46,7 +48,7 @@ class EgyptianNationalId:
     Class repersting an Egyption National Id
 
     >>> id = EgyptianNationalId('29501023201952')
-    >>> 1999 in id.century
+    >>> 1999 in id.birth_century_range
     True
     >>> id.birth_date.year == 1995
     True
@@ -96,7 +98,7 @@ class EgyptianNationalId:
         Returns:
             None
         """
-        self.birth_century: str = self.id[0]
+        self.birth_century_code: int = int(self.id[0])
         self.birth_str: str = self.id[1:7]
         self.governrate_code: str = self.id[7:9]
         self.serial_number: str = self.id[9:13]
@@ -123,26 +125,29 @@ class EgyptianNationalId:
         """
         Convert the birth date to a datetime object
         """
-        date = datetime.strptime(self.birth_str, "%y%m%d").date()
+        self.birth_century = self.birth_century_code + 18
+        birth_year = (self.birth_century * CENTURY_To_YEAR) - \
+            CENTURY_To_YEAR + int(self.birth_str[:2])
+        birth_month = int(self.birth_str[2:4])
+        birth_day = int(self.birth_str[4:6])
+        self.fields['birthDate'] = datetime(
+            birth_year, birth_month, birth_day).date()
 
-        if not date.year in self.century:
-            date = date.replace(year=date.year - 100)
-            self.fields["birthDate"] = date
-        else:
-            self.fields["birthDate"] = date
+    def __get_century_from_year(year):
+        return year // CENTURY_To_YEAR + 1
 
     def __convert_century(self) -> None:
         """
         Convert the birth century to a range object
         """
-        self.century: range = CENTURY[self.birth_century]
+        self.birth_century_range: range = CENTURY_RANGE[self.birth_century_code]
 
     def __str__(self) -> str:
         """
         Return the feilds of the id number
         """
         return (f"id {self.id} \n"
-                f"birth_century {self.birth_century} \n"
+                f"birth_century {self.birth_century_code} \n"
                 f'birth_date {self.fields["birthDate"]} \n'
                 f'governrate {self.fields["governrate"]} \n'
                 f'gender {self.fields["gender"]}')
