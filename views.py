@@ -16,5 +16,5 @@ def index(request: HttpRequest, id: str) -> JsonResponse:
     try:
         id: EgyptianNationalId = EgyptianNationalId(id)
     except:
-        return JsonResponse({'error': 'Invalid ID'}, status=400)
+        return JsonResponse({"error": "Invalid ID"}, status=400)
     return JsonResponse(id.fields)
