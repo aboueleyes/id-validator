@@ -1,5 +1,5 @@
 # id-validator
-Egyptian national ID validator and data-extractor API
+A simple API that validates Egyptian national ID and extracts some useful information such as the date of birth, the gender, and the governorate where the ID owner was born.
 
 ## Project Setup
 
