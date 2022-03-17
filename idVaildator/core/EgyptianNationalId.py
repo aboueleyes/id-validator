@@ -109,7 +109,8 @@ class EgyptianNationalId:
         even -> female
         odd -> male
         """
-        self.fields["gender"] = "Female" if self.gender_code % 2 == 0 else "Male"
+        self.fields[
+            "gender"] = "Female" if self.gender_code % 2 == 0 else "Male"
 
     def __convert_governrate(self) -> None:
         """
@@ -121,7 +122,8 @@ class EgyptianNationalId:
         """
         Convert the birth date to a datetime object
         """
-        self.fields["birthDate"] = datetime.strptime(self.birth_str, "%y%m%d").date()
+        self.fields["birthDate"] = datetime.strptime(self.birth_str,
+                                                     "%y%m%d").date()
 
     def __convert_century(self) -> None:
         """
@@ -133,10 +135,8 @@ class EgyptianNationalId:
         """
         Return the feilds of the id number
         """
-        return (
-            f"id {self.id} \n"
-            f"birth_century {self.birth_century} \n"
-            f"birth_date {self.birth_date} \n"
-            f"governrate {self.governrate} \n"
-            f"gender {self.gender}"
-        )
+        return (f"id {self.id} \n"
+                f"birth_century {self.birth_century} \n"
+                f"birth_date {self.birth_date} \n"
+                f"governrate {self.governrate} \n"
+                f"gender {self.gender}")
