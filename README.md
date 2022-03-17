@@ -9,7 +9,7 @@ A simple API that validates Egyptian national ID and extracts some useful inform
 > sudo pip3 install -r requiremnts.txt   # <- just installing django
 > cd idVaildator/
 > python manage.py runserver # run the server it will run on port 8000 
-> curl http://127.0.0.1:8000/core/{id} # replace id with your desired natinol id
+> curl http://127.0.0.1:8000/core/{id} # replace {id} with your desired natinol id see examples below
 ```
 
 ## Ruunig Tests
