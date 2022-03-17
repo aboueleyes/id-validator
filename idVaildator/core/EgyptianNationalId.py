@@ -110,7 +110,8 @@ class EgyptianNationalId:
         even -> female
         odd -> male
         """
-        self.fields["gender"] = "Female" if self.gender_code % 2 == 0 else "Male"
+        self.fields[
+            "gender"] = "Female" if self.gender_code % 2 == 0 else "Male"
 
     def __convert_governrate(self) -> None:
         """
@@ -140,10 +141,8 @@ class EgyptianNationalId:
         """
         Return the feilds of the id number
         """
-        return (
-            f"id {self.id} \n"
-            f"birth_century {self.birth_century} \n"
-            f'birth_date {self.fields["birthDate"]} \n'
-            f'governrate {self.fields["governrate"]} \n'
-            f'gender {self.fields["gender"]}'
-        )
+        return (f"id {self.id} \n"
+                f"birth_century {self.birth_century} \n"
+                f'birth_date {self.fields["birthDate"]} \n'
+                f'governrate {self.fields["governrate"]} \n'
+                f'gender {self.fields["gender"]}')
