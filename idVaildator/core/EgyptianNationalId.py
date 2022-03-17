@@ -1,6 +1,5 @@
 import re
 from datetime import datetime
-from datetime import timedelta
 
 EG_ID_REGEX: str = r"^(2|3)[0-9]{2}[0-1][0-9][0-3][0-9](01|02|03|04|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|31|32|33|34|35|88)\d{5}$"
 
@@ -84,7 +83,7 @@ class EgyptianNationalId:
         check the if format of the id is valid id number
 
         Returns:
-            bool: return True if the id is valid False
+            bool: return True if the id is valid False otherwise
         """
         match = re.match(EG_ID_REGEX, self.id)
         if match:
@@ -132,9 +131,6 @@ class EgyptianNationalId:
         birth_day = int(self.birth_str[4:6])
         self.fields['birthDate'] = datetime(
             birth_year, birth_month, birth_day).date()
-
-    def __get_century_from_year(year):
-        return year // CENTURY_To_YEAR + 1
 
     def __convert_century(self) -> None:
         """
