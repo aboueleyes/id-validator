@@ -7,7 +7,6 @@ VALID_ID = "30103211203135"
 
 
 class TestNationalId(unittest.TestCase):
-
     def setUp(self) -> None:
         self.id = EgyptianNationalId(VALID_ID)
 
@@ -36,15 +35,16 @@ class TestNationalId(unittest.TestCase):
         self.assertEqual(self.id.fields["governrate"], "Dakahlia")
 
     def test_birthday(self):
-        self.assertEqual(self.id.fields["birthDate"],
-                         datetime.datetime(2001, 3, 21).date())
+        self.assertEqual(
+            self.id.fields["birthDate"], datetime.datetime(2001, 3, 21).date()
+        )
 
     def test_century(self):
         self.assertTrue(2002 in self.id.century)
 
     def test_century_old(self):
         id = EgyptianNationalId("20103211203134")
-        self.assertTrue(id.fields['birthDate'].year, 1901)
+        self.assertTrue(id.fields["birthDate"].year, 1901)
 
 
 if __name__ == "__main__":
