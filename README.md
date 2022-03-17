@@ -46,6 +46,7 @@ Egyptian national ID validator and data-extractor API
 ```bash
 > curl http://127.0.0.1:8000/core/29903211707122
 ```
+*output*
 
 ```json
 {"birthDate": "1999-03-21", "gender": "Female", "governrate": "Monoufia"}
