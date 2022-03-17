@@ -43,6 +43,13 @@ Egyptian national ID validator and data-extractor API
 {"birthDate": "2001-03-21", "gender": "Male", "governrate": "Dakahlia"}
 
 ```
+```bash
+> curl http://127.0.0.1:8000/core/29903211707122
+```
+
+```json
+{"birthDate": "1999-03-21", "gender": "Female", "governrate": "Monoufia"}
+```
 
 ## ID Format 
 ```
