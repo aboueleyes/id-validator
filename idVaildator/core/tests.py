@@ -1,6 +1,7 @@
-import unittest
-from .EgyptianNationalId import EgyptianNationalId
 import datetime
+import unittest
+
+from .EgyptianNationalId import EgyptianNationalId
 
 VALID_ID = "30103211203135"
 
