@@ -1,43 +1,43 @@
 import re
 from datetime import datetime
+from datetime import timedelta
 
-
-EG_ID_REGEX: str = r'^(2|3)[0-9]{2}[0-1][0-9][0-3][0-9](01|02|03|04|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|31|32|33|34|35|88)\d{5}$'
+EG_ID_REGEX: str = r"^(2|3)[0-9]{2}[0-1][0-9][0-3][0-9](01|02|03|04|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|31|32|33|34|35|88)\d{5}$"
 
 GOVERNORATES: dict[str, str] = {
-    '01': 'Cairo',
-    '02': 'Alexandria',
-    '03': 'Port Said',
-    '04': 'Suez',
-    '11': 'Damietta',
-    '12': 'Dakahlia',
-    '13': 'Ash Sharqia',
-    '14': 'Kaliobeya',
-    '15': 'Kafr El - Sheikh',
-    '16': 'Gharbia',
-    '17': 'Monoufia',
-    '18': 'El Beheira',
-    '19': 'Ismailia',
-    '21': 'Giza',
-    '22': 'Beni Suef',
-    '23': 'Fayoum',
-    '24': 'El Menia',
-    '25': 'Assiut',
-    '26': 'Sohag',
-    '27': 'Qena',
-    '28': 'Aswan',
-    '29': 'Luxor',
-    '31': 'Red Sea',
-    '32': 'New Valley',
-    '33': 'Matrouh',
-    '34': 'North Sinai',
-    '35': 'South Sinai',
-    '88': 'Foreign',
+    "01": "Cairo",
+    "02": "Alexandria",
+    "03": "Port Said",
+    "04": "Suez",
+    "11": "Damietta",
+    "12": "Dakahlia",
+    "13": "Ash Sharqia",
+    "14": "Kaliobeya",
+    "15": "Kafr El - Sheikh",
+    "16": "Gharbia",
+    "17": "Monoufia",
+    "18": "El Beheira",
+    "19": "Ismailia",
+    "21": "Giza",
+    "22": "Beni Suef",
+    "23": "Fayoum",
+    "24": "El Menia",
+    "25": "Assiut",
+    "26": "Sohag",
+    "27": "Qena",
+    "28": "Aswan",
+    "29": "Luxor",
+    "31": "Red Sea",
+    "32": "New Valley",
+    "33": "Matrouh",
+    "34": "North Sinai",
+    "35": "South Sinai",
+    "88": "Foreign",
 }
 
 CENTURY: dict[str, range] = {
-    '2': range(1900, 2000),
-    '3': range(2000, 2100),
+    "2": range(1900, 2000),
+    "3": range(2000, 2100),
 }
 
 
@@ -68,12 +68,12 @@ class EgyptianNationalId:
         self.id: str = id
 
         if not self.is_valid():
-            raise ValueError('Invalid id number')
+            raise ValueError("Invalid id number")
 
         self.fields = {}
         self.__extract_info_from_national_id()
-        self.__convert_birth_date()
         self.__convert_century()
+        self.__convert_birth_date()
         self.__convert_gender()
         self.__convert_governrate()
 
@@ -96,7 +96,7 @@ class EgyptianNationalId:
         Returns:
             None
         """
-        self.birth_century:  str = self.id[0]
+        self.birth_century: str = self.id[0]
         self.birth_str: str = self.id[1:7]
         self.governrate_code: str = self.id[7:9]
         self.serial_number: str = self.id[9:13]
@@ -110,20 +110,26 @@ class EgyptianNationalId:
         even -> female
         odd -> male
         """
-        self.fields['gender'] = 'Female' if self.gender_code % 2 == 0 else 'Male'
+        self.fields[
+            "gender"] = "Female" if self.gender_code % 2 == 0 else "Male"
 
     def __convert_governrate(self) -> None:
         """
         convert the governrate code to the governrate name
         """
-        self.fields['governrate'] = GOVERNORATES[self.governrate_code]
+        self.fields["governrate"] = GOVERNORATES[self.governrate_code]
 
     def __convert_birth_date(self) -> None:
         """
         Convert the birth date to a datetime object
         """
-        self.fields['birthDate'] = datetime.strptime(
-            self.birth_str, '%y%m%d').date()
+        date = datetime.strptime(self.birth_str, "%y%m%d").date()
+
+        if not date.year in self.century:
+            date = date.replace(year=date.year - 100)
+            self.fields["birthDate"] = date
+        else:
+            self.fields["birthDate"] = date
 
     def __convert_century(self) -> None:
         """
@@ -135,8 +141,8 @@ class EgyptianNationalId:
         """
         Return the feilds of the id number
         """
-        return f'id {self.id} \n' \
-            f'birth_century {self.birth_century} \n' \
-            f'birth_date {self.birth_date} \n' \
-            f'governrate {self.governrate} \n' \
-            f'gender {self.gender}'
+        return (f"id {self.id} \n"
+                f"birth_century {self.birth_century} \n"
+                f'birth_date {self.fields["birthDate"]} \n'
+                f'governrate {self.fields["governrate"]} \n'
+                f'gender {self.fields["gender"]}')

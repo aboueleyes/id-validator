@@ -42,6 +42,10 @@ class TestNationalId(unittest.TestCase):
     def test_century(self):
         self.assertTrue(2002 in self.id.century)
 
+    def test_century_old(self):
+        id = EgyptianNationalId("20103211203134")
+        self.assertTrue(id.fields["birthDate"].year, 1901)
+
 
 if __name__ == "__main__":
     unittest.main()
