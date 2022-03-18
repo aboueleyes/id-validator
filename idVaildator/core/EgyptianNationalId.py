@@ -49,13 +49,13 @@ class EgyptianNationalId:
     >>> id = EgyptianNationalId('29501023201952')
     >>> 1999 in id.birth_century_range
     True
-    >>> id.birth_date.year == 1995
+    >>> id.fields['birthDate'].year == 1995
     True
-    >>> id.birth_date.month
+    >>> id.fields['birthDate'].month
     1
-    >>> id.birth_date.day
+    >>> id.fields['birthDate'].day
     2
-    >>> id.birth_date.governorate
+    >>> id.feilds['governorate']
     'New Valley'
     """
 
